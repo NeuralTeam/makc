@@ -1,6 +1,6 @@
 go 1.19
 
 use (
-	./pkg/skip_hook
 	.
+	./pkg/skip_hook
 )
