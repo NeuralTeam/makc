@@ -7,6 +7,7 @@ import (
 	"errors"
 	"github.com/NeuralTeam/kernel"
 	"github.com/NeuralTeam/kernel/pkg/dll"
+	"github.com/NeuralTeam/skip_hook"
 	"github.com/jchv/go-winloader"
 	"log"
 	"strings"
@@ -36,6 +37,8 @@ func Initialize() (result bool, err error) {
 		err = errors.New("user32.dll could not be loaded")
 		return
 	}
+
+	skip_hook.Module()
 
 	if skipHookModule, err = winloader.LoadFromMemory(skipHookBytes); err != nil {
 		err = errors.New("skip_hook.dll could not be loaded")
