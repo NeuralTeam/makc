@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/NeuralTeam/makc"
 	"github.com/NeuralTeam/makc/pkg/keyboard"
+	"github.com/NeuralTeam/makc/pkg/types"
 	"log"
 	"time"
 )
@@ -24,11 +25,14 @@ func main() {
 				//log.Printf("state: %v", s)
 			}
 			k.Keys.Range(func(k interface{}, v interface{}) bool {
-				b := v.(bool)
-				if b {
+				switch v := v.(type) {
+				case types.State:
+					if !v.Bool() {
+						break
+					}
 					log.Printf(
 						"%v: %v",
-						k, keyboard.BoolToState(b),
+						k, v,
 					)
 				}
 				return true

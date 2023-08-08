@@ -31,24 +31,24 @@ var skipHookModule winloader.Module
 // IMPORTANT: it is undesirable to call this function twice.
 // This may lead to unforeseen consequences
 func Initialize() (result bool, err error) {
-	k, err := kernel.New(dll.New("user32.dll"))
+	k, err := kernel.New(dll.New(`user32.dll`))
 	if err != nil {
-		err = errors.New("user32.dll could not be loaded")
+		err = errors.New(`user32.dll could not be loaded`)
 		return
 	}
 
 	if skipHookModule, err = winloader.LoadFromMemory(skipHookBytes); err != nil {
-		err = errors.New("skip_hook.dll could not be loaded")
+		err = errors.New(`skip_hook.dll could not be loaded`)
 		return
 	}
-	h := skipHookModule.Proc("?SkipHook@@YAPEAE_K@Z").Addr()
+	h := skipHookModule.Proc(`?SkipHook@@YAPEAE_K@Z`).Addr()
 	if h == 0 {
-		err = errors.New("skip_hook.dll is missing required procedure")
+		err = errors.New(`skip_hook.dll is missing required procedure`)
 		return
 	}
 
 	skipHook := *(*C.FARPROC)(unsafe.Pointer(&h))
-	mouseInput := *(*C.FARPROC)(unsafe.Pointer(&k.NewProc("InjectMouseInput").Address))
+	mouseInput := *(*C.FARPROC)(unsafe.Pointer(&k.NewProc(`InjectMouseInput`).Address))
 	result = bool(C.CreateMouseAndKeyboardHook(
 		C.bool(true), C.bool(true),
 		mouseInput, skipHook),
@@ -62,7 +62,7 @@ func Initialize() (result bool, err error) {
 func Terminate() {
 	C.StopMouseAndKeyboardHook()
 	if err := skipHookModule.Free(); err != nil {
-		log.Fatalln("skip_hook.dll is unable to free")
+		log.Fatalln(`skip_hook.dll is unable to free`)
 	}
 }
 
@@ -73,19 +73,30 @@ func Terminate() {
 *|_|  |_|\___/ \___/|___/|___|
  */
 
+// Mouse button names
+const (
+	LeftButton   = `leftbutton`
+	RightButton  = `rightbutton`
+	MiddleButton = `middlebutton`
+	SideButton   = `sidebutton`
+)
+
 // Mouse event names
 const (
-	LeftButtonDown = "leftbuttondown"
-	LeftButtonUp   = "leftbuttonup"
+	down = `down`
+	up   = `up`
 
-	RightButtonDown = "rightbuttondown"
-	RightButtonUp   = "rightbuttonup"
+	LeftButtonDown = LeftButton + down
+	LeftButtonUp   = LeftButton + up
 
-	MiddleButtonDown = "middlebuttondown"
-	MiddleButtonUp   = "middlebuttonup"
+	RightButtonDown = RightButton + down
+	RightButtonUp   = RightButton + up
 
-	SideButtonDown = "sidebuttondown"
-	SideButtonUp   = "sidebuttonup"
+	MiddleButtonDown = MiddleButton + down
+	MiddleButtonUp   = MiddleButton + up
+
+	SideButtonDown = SideButton + down
+	SideButtonUp   = SideButton + up
 )
 
 // mouseEventCodeByName contains fields with values from C

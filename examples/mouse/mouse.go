@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/NeuralTeam/makc"
 	"github.com/NeuralTeam/makc/pkg/mouse"
+	"github.com/NeuralTeam/makc/pkg/types"
 	"log"
 	"time"
 )
@@ -24,14 +25,16 @@ func main() {
 				//log.Printf("state: %v", s)
 			}
 			m.Buttons.Range(func(k, v interface{}) bool {
-				b := v.(bool)
-				log.Printf(
-					"%v: %v",
-					k, mouse.BoolToState(b),
-				)
-				if b && k == mouse.RightButton {
-					makc.MoveMouse(5, 5, true)
-					log.Printf("pointer: %v", m.GetPointer())
+				switch v := v.(type) {
+				case types.State:
+					log.Printf(
+						"%v: %v",
+						k, v,
+					)
+					if v.Bool() && k == mouse.Right {
+						makc.MoveMouse(10, 10, true)
+						log.Printf("pointer: %v", m.GetPointer())
+					}
 				}
 				return true
 			})

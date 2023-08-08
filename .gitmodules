@@ -1,3 +1,3 @@
-[submodule "pkg/skip_hook"]
-	path = pkg/skip_hook
+[submodule "internal/skip_hook"]
+	path = internal/skip_hook
 	url = https://github.com/NeuralTeam/skip_hook.git

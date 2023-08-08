@@ -1,26 +1,26 @@
 package mouse
 
-import "github.com/NeuralTeam/makc"
+import (
+	"github.com/NeuralTeam/makc"
+)
 
-type Button [2]State
+const (
+	leftbutton   = makc.LeftButton
+	rightbutton  = makc.RightButton
+	middlebutton = makc.MiddleButton
+	sidebutton   = makc.SideButton
+)
+
+type Button int
+
+const (
+	Left Button = iota
+	Right
+	Middle
+	Side
+)
 
 var (
-	Left = Button{
-		makc.LeftButtonDown,
-		makc.LeftButtonUp,
-	}
-	Right = Button{
-		makc.RightButtonDown,
-		makc.RightButtonUp,
-	}
-	Middle = Button{
-		makc.MiddleButtonDown,
-		makc.MiddleButtonUp,
-	}
-	Side = Button{
-		makc.SideButtonDown,
-		makc.SideButtonUp,
-	}
 	Buttons = []Button{
 		Left,
 		Right,
@@ -29,9 +29,11 @@ var (
 	}
 )
 
-const (
-	LeftButton   State = "leftbutton"
-	RightButton  State = "rightbutton"
-	MiddleButton State = "middlebutton"
-	SideButton   State = "sidebutton"
-)
+func (s Button) String() string {
+	return [...]string{
+		leftbutton,
+		rightbutton,
+		middlebutton,
+		sidebutton,
+	}[s]
+}

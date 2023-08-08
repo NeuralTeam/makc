@@ -2,46 +2,32 @@ package mouse
 
 import (
 	"github.com/NeuralTeam/makc"
-	"github.com/NeuralTeam/makc/pkg/utils"
-	"strings"
+	"github.com/NeuralTeam/makc/pkg/types"
 	"sync"
 )
 
-var (
-	ButtonStates = []State{
-		LeftButton,
-		RightButton,
-		MiddleButton,
-		SideButton,
-	}
-)
-
 type Mouse struct {
-	Pointer utils.Point
+	Pointer types.Point
 	Buttons sync.Map
 }
 
-func New() (k *Mouse) {
-	k = new(Mouse)
+func New() (m *Mouse) {
+	m = new(Mouse)
 	return
 }
 
-func (m *Mouse) GetPointer() utils.Point {
+func (m *Mouse) GetPointer() (pointer types.Point) {
 	x, y := makc.GetMousePos()
-	m.Pointer = utils.Point{X: x, Y: y}
-	return m.Pointer
+	pointer = types.Point{X: x, Y: y}
+	m.Pointer = pointer
+	return
 }
 
-func (m *Mouse) GetButtonState(button Button) (b bool) {
-	for _, e := range button {
-		for _, s := range States {
-			e, s := string(e), string(s)
-			if strings.Contains(e, s) && makc.GetMouseEventState(e) {
-				e = strings.TrimSuffix(e, s)
-				b = StateToBool(State(s))
-				m.Buttons.Store(State(e), b)
-				break
-			}
+func (m *Mouse) GetButtonState(button Button) (buttonState types.State) {
+	for _, buttonState = range types.States {
+		if makc.GetMouseEventState(button.String() + buttonState.String()) {
+			m.Buttons.Store(button, buttonState)
+			break
 		}
 	}
 	return

@@ -2,6 +2,7 @@ package keyboard
 
 import (
 	"github.com/NeuralTeam/makc"
+	"github.com/NeuralTeam/makc/pkg/types"
 	"sync"
 )
 
@@ -14,8 +15,10 @@ func New() (k *Keyboard) {
 	return
 }
 
-func (k *Keyboard) GetKeyState(key Key) (b bool) {
-	b = makc.GetKeyState(string(key))
-	k.Keys.Store(key, b)
+func (k *Keyboard) GetKeyState(key Key) (keyState types.State) {
+	if s := makc.GetKeyState(key.String()); s {
+		keyState = types.Down
+	}
+	k.Keys.Store(key, keyState)
 	return
 }
