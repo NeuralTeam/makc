@@ -148,7 +148,7 @@ func GetMouseEventState(event string) (state bool) {
 //
 // NOTE: this is a loop that runs until a mouse event occurs
 func GetFirstMouseEvent() (event string) {
-	for event == "" {
+	for event == `` {
 		for _, e := range MouseEvents {
 			if GetMouseEventState(e) ||
 				GetMouseEventState(strings.ToLower(e)) {
@@ -180,7 +180,7 @@ func MoveMouse(posX int, posY int, relative bool) {
 }
 
 // MoveMouseHumanly moves the mouse relative to the specified coordinates
-// with a special algorithm of "human" mouse movement
+// with a special algorithm of `human` mouse movement
 func MoveMouseHumanly(posX int, posY int) {
 	go C.MouseMoveHumanly(C.int(posX), C.int(posY))
 }
@@ -209,90 +209,90 @@ func MiddleMouseButtonClick() {
 
 // Keyboard key names
 const (
-	Key1      = "1"
-	Key2      = "2"
-	Key3      = "3"
-	Key4      = "4"
-	Key5      = "5"
-	Key6      = "6"
-	Key7      = "7"
-	Key8      = "8"
-	Key9      = "9"
-	Key0      = "0"
-	KeyMinus  = "-"
-	KeyEquals = "="
+	Key1      = `1`
+	Key2      = `2`
+	Key3      = `3`
+	Key4      = `4`
+	Key5      = `5`
+	Key6      = `6`
+	Key7      = `7`
+	Key8      = `8`
+	Key9      = `9`
+	Key0      = `0`
+	KeyMinus  = `-`
+	KeyEquals = `=`
 
-	KeyF1  = "f1"
-	KeyF2  = "f2"
-	KeyF3  = "f3"
-	KeyF4  = "f4"
-	KeyF5  = "f5"
-	KeyF6  = "f6"
-	KeyF7  = "f7"
-	KeyF8  = "f8"
-	KeyF9  = "f9"
-	KeyF10 = "f10"
-	KeyF11 = "f11"
-	KeyF12 = "f12"
+	KeyF1  = `f1`
+	KeyF2  = `f2`
+	KeyF3  = `f3`
+	KeyF4  = `f4`
+	KeyF5  = `f5`
+	KeyF6  = `f6`
+	KeyF7  = `f7`
+	KeyF8  = `f8`
+	KeyF9  = `f9`
+	KeyF10 = `f10`
+	KeyF11 = `f11`
+	KeyF12 = `f12`
 
-	KeyA = "a"
-	KeyS = "s"
-	KeyD = "d"
-	KeyF = "f"
-	KeyG = "g"
-	KeyH = "h"
-	KeyJ = "j"
-	KeyK = "k"
-	KeyL = "l"
-	KeyQ = "q"
-	KeyW = "w"
-	KeyE = "e"
-	KeyR = "r"
-	KeyT = "t"
-	KeyY = "y"
-	KeyU = "u"
-	KeyI = "i"
-	KeyO = "o"
-	KeyP = "p"
-	KeyZ = "z"
-	KeyX = "x"
-	KeyC = "c"
-	KeyV = "v"
-	KeyB = "b"
-	KeyN = "n"
-	KeyM = "m"
+	KeyA = `a`
+	KeyS = `s`
+	KeyD = `d`
+	KeyF = `f`
+	KeyG = `g`
+	KeyH = `h`
+	KeyJ = `j`
+	KeyK = `k`
+	KeyL = `l`
+	KeyQ = `q`
+	KeyW = `w`
+	KeyE = `e`
+	KeyR = `r`
+	KeyT = `t`
+	KeyY = `y`
+	KeyU = `u`
+	KeyI = `i`
+	KeyO = `o`
+	KeyP = `p`
+	KeyZ = `z`
+	KeyX = `x`
+	KeyC = `c`
+	KeyV = `v`
+	KeyB = `b`
+	KeyN = `n`
+	KeyM = `m`
 
-	KeyLeftSquareBracket  = "["
-	KeyRightSquareBracket = "]"
+	KeyLeftSquareBracket  = `[`
+	KeyRightSquareBracket = `]`
 	KeyBackQuote          = "`"
-	KeyBackslash          = "\\"
+	KeyBackslash          = `\`
 
-	KeySemicolon    = ";"
-	KeySingleQuote  = "'"
-	KeyComma        = ","
-	KeyDot          = "."
-	KeyQuestionMark = "?"
+	KeySemicolon    = `;`
+	KeySingleQuote  = `'`
+	KeyComma        = `,`
+	KeyDot          = `.`
+	KeyQuestionMark = `?`
 
-	KeyEscape       = "escape"
-	KeyDelete       = "delete"
-	KeyTab          = "tab"
-	KeyEnter        = "enter"
-	KeyControl      = "control"
-	KeyControlLeft  = "controlleft"
-	KeyControlRight = "controlright"
-	KeyShift        = "shift"
-	KeyShiftLeft    = "shiftleft"
-	KeyShiftRight   = "shiftright"
-	KeySpace        = "space"
-	KeyBackspace    = "backspace"
-	KeyCapslock     = "capslock"
-	KeyInsert       = "insert"
-	KeyPrintscreen  = "printscreen"
-	KeyEnd          = "end"
-	KeyHome         = "home"
-	KeyMenu         = "menu"
-	KeyAltLeft      = "altleft"
-	KeyAltRight     = "altright"
+	KeyEscape       = `escape`
+	KeyDelete       = `delete`
+	KeyTab          = `tab`
+	KeyEnter        = `enter`
+	KeyControl      = `control`
+	KeyControlLeft  = `controlleft`
+	KeyControlRight = `controlright`
+	KeyShift        = `shift`
+	KeyShiftLeft    = `shiftleft`
+	KeyShiftRight   = `shiftright`
+	KeySpace        = `space`
+	KeyBackspace    = `backspace`
+	KeyCapslock     = `capslock`
+	KeyInsert       = `insert`
+	KeyPrintscreen  = `printscreen`
+	KeyEnd          = `end`
+	KeyHome         = `home`
+	KeyMenu         = `menu`
+	KeyAltLeft      = `altleft`
+	KeyAltRight     = `altright`
 )
 
 // keyboardKeyCodeByName contains fields with values from C
@@ -490,7 +490,7 @@ func GetKeyState(key string) (state bool) {
 //
 // NOTE: this is a loop that runs until the key is pressed
 func GetFirstKey() (key string) {
-	for key == "" {
+	for key == `` {
 		for _, e := range KeyboardKeys {
 			if GetKeyState(e) ||
 				GetKeyState(strings.ToLower(e)) {
