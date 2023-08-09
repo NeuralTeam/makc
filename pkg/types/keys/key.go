@@ -1,6 +1,8 @@
-package keyboard
+package keys
 
-import "github.com/NeuralTeam/makc"
+import (
+	"github.com/NeuralTeam/makc/internal/makc"
+)
 
 type Key int
 
