@@ -2,39 +2,33 @@ package main
 
 import (
 	"github.com/NeuralTeam/makc"
-	"github.com/NeuralTeam/makc/pkg/keyboard"
 	"github.com/NeuralTeam/makc/pkg/types"
+	"github.com/NeuralTeam/makc/pkg/types/keys"
 	"log"
 	"time"
 )
 
 func main() {
-	if ok, err := makc.Initialize(); err != nil || !ok {
-		log.Fatalln("failed to initialize:", err.Error())
-	}
-	defer makc.Terminate()
+	k := makc.Keyboard()
 
-	k := keyboard.New()
-	t := time.NewTicker(time.Millisecond)
-	defer t.Stop()
+	log.Println("waiting for keyboard key...")
+	log.Printf("pressed key: %v", k.GetFirstKey())
+
 	for {
 		select {
-		case <-t.C:
-			for _, e := range keyboard.Keys {
+		case <-time.After(time.Millisecond):
+			for _, e := range keys.Keys {
 				_ = k.GetKeyState(e)
 				//log.Printf("state: %v", s)
 			}
-			k.Keys.Range(func(k interface{}, v interface{}) bool {
-				switch v := v.(type) {
-				case types.State:
-					if !v.Bool() {
-						break
-					}
-					log.Printf(
-						"%v: %v",
-						k, v,
-					)
+			k.KeysRange(func(k keys.Key, v types.State) bool {
+				if !v.Bool() {
+					return true
 				}
+				log.Printf(
+					"%v: %v",
+					k, v,
+				)
 				return true
 			})
 		}

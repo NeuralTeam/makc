@@ -1,7 +1,7 @@
-package mouse
+package buttons
 
 import (
-	"github.com/NeuralTeam/makc"
+	"github.com/NeuralTeam/makc/internal/makc"
 )
 
 const (
