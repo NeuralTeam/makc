@@ -7,14 +7,11 @@ import (
 )
 
 var (
-	_Keyboard = keyboard.New()
-	_Mouse    = mouse.New()
+	Keyboard wrapper.Keyboard
+	Mouse    wrapper.Mouse
 )
 
-func Keyboard() wrapper.Keyboard {
-	return _Keyboard
-}
-
-func Mouse() wrapper.Mouse {
-	return _Mouse
+func init() {
+	Keyboard = keyboard.New()
+	Mouse = mouse.New()
 }
