@@ -1,6 +1,6 @@
 module github.com/NeuralTeam/makc
 
-go 1.19
+go 1.21.1
 
 require (
 	github.com/NeuralTeam/kernel v0.0.0-20230622171635-12e3a65137ac
