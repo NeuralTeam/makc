@@ -655,12 +655,10 @@ bool __fastcall unhookWindowsHook(void) {
 	}
 
 	if (mouseData.LLDATA.HOOK.hMouseHook) {
-		skipHook.unhookWindowsHookEx(mouseData.LLDATA.HOOK.hMouseHook);
-		mouseData.LLDATA.HOOK.hMouseHook = NULL;
+	    _beginthread((_beginthread_proc_type)skipHook.unhookWindowsHookEx, 0, (void*)mouseData.LLDATA.HOOK.hMouseHook);
 	}
 	if (keyboardData.LLDATA.hKeyboardHook) {
-		skipHook.unhookWindowsHookEx(keyboardData.LLDATA.hKeyboardHook);
-		keyboardData.LLDATA.hKeyboardHook = NULL;
+	    _beginthread((_beginthread_proc_type)skipHook.unhookWindowsHookEx, 0, (void*)keyboardData.LLDATA.hKeyboardHook);
 	}
 	return true;
 }

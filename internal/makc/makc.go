@@ -8,7 +8,6 @@ import (
 	"github.com/NeuralTeam/kernel"
 	"github.com/NeuralTeam/kernel/pkg/dll"
 	"github.com/jchv/go-winloader"
-	"log"
 	"strings"
 	"unsafe"
 )
@@ -25,12 +24,7 @@ var skipHookBytes []byte
 var skipHookModule winloader.Module
 
 // Initialize initializes everything and creates hooks for handling mouse and keyboard events
-//
-// # Returns true if successful, otherwise false
-//
-// IMPORTANT: it is undesirable to call this function twice.
-// This may lead to unforeseen consequences
-func Initialize() (result bool, err error) {
+func Initialize() (err error) {
 	k, err := kernel.New(dll.New(`user32.dll`))
 	if err != nil {
 		err = errors.New(`user32.dll could not be loaded`)
@@ -49,10 +43,13 @@ func Initialize() (result bool, err error) {
 
 	skipHook := *(*C.FARPROC)(unsafe.Pointer(&h))
 	mouseInput := *(*C.FARPROC)(unsafe.Pointer(&k.NewProc(`InjectMouseInput`).Address))
-	result = bool(C.CreateMouseAndKeyboardHook(
+	if ok := bool(C.CreateMouseAndKeyboardHook(
 		C.bool(true), C.bool(true),
 		mouseInput, skipHook),
-	)
+	); !ok {
+		err = errors.New(`internal error`)
+		return
+	}
 	return
 }
 
@@ -62,7 +59,7 @@ func Initialize() (result bool, err error) {
 func Terminate() {
 	C.StopMouseAndKeyboardHook()
 	if err := skipHookModule.Free(); err != nil {
-		log.Fatalln(`skip_hook.dll is unable to free`)
+		panic(err)
 	}
 }
 

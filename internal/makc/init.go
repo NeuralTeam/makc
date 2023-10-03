@@ -1,22 +1,19 @@
 package makc
 
 import (
-	"log"
-	"time"
+	"os"
+	"os/signal"
 )
 
 func init() {
+	if err := Initialize(); err != nil {
+		panic(err)
+	}
 	go func() {
-		if ok, err := Initialize(); err != nil || !ok {
-			log.Fatalln("failed to initialize:", err.Error())
-		}
 		defer Terminate()
 
-		for {
-			select {
-			case <-time.After(time.Hour):
-				continue
-			}
-		}
+		interrupt := make(chan os.Signal, 1)
+		signal.Notify(interrupt, os.Interrupt)
+		<-interrupt
 	}()
 }
