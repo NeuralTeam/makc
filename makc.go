@@ -12,6 +12,5 @@ var (
 )
 
 func init() {
-	Keyboard = keyboard.New()
-	Mouse = mouse.New()
+	Keyboard, Mouse = keyboard.New(), mouse.New()
 }
